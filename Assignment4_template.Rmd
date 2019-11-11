@@ -1,0 +1,33 @@
+---
+title: "Assignment 4: Writing functions"
+author: "Your Name"
+date: "Today's date"
+output: html_document
+---
+
+**Due Sunday, November 18, 2019 @ 11:59pm through Github**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+(1) Write a function called `mean_ci()` for computing 95% confidence intervals for either a single mean or a difference in means.
+
+```{r}
+#Put your code to read in the data here
+
+```
+
+(2) Write a function called `prop_ci()` for computing either a 95% confidence interval for a single proportion or a 95% confidence interval for the difference in proportions.
+
+```{r}
+#Put your code for this here
+
+```
+
+(3) Extra credit: Write a function called `ratio_ci()` for computing either a 95% confidence interval for the odds ratio or a 95% confidence interval for the relative risk between two groups.
+
+```{r}
+#Put your code for this here
+
+```
