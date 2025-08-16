@@ -5,7 +5,7 @@ date: "Today's date"
 output: html_document
 ---
 
-**Due Sunday, November 17, 2024 @ 11:59pm through Github**
+**Due Sunday, November 30, 2025 @ 11:59pm through Github**
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -18,6 +18,32 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
+If you would like a way to check that your confidence intervals are correct, here is the code I will use to check that your function works appropriately:
+```{r echo = TRUE, eval = FALSE}
+set.seed(8675309)
+x <- rnorm(50)
+y <- rnorm(30)
+
+mean_ci(x)   # should get [1] -0.1404677  0.3458514
+
+mean_ci(x, y, type="two.means")   # should get [1] -0.1875458  0.7320355
+
+# checking the na.rm piece
+x2 <- c(x, NA)
+y2 <- c(y, NA)
+mean_ci(x2, y2, type="two.means")  # should get [1] NA NA
+mean_ci(x2, y2, type="two.means", na.rm=TRUE)   # should get [1] -0.1875458  0.7320355
+
+# checking the numeric piece
+x3 <- c("hi", "how", "are", "you", "?")  
+mean_ci(x3)                          # should get an informative error
+mean_ci(x3, y2, type = "two.means")  # should get an informative error
+
+# check the type piece
+mean_ci(x2, y2, type = "two.groups")  # should get an informative error
+```
+
+
 (2) Write a function called `prop_ci()` for computing either a 95% confidence interval for a single proportion or a 95% confidence interval for the difference in proportions.
 
 ```{r}
@@ -25,9 +51,51 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
+
+If you would like a way to check that your confidence intervals are correct, here is the code I will use to check that your function works appropriately:
+```{r echo = TRUE, eval = FALSE}
+set.seed(8675309)
+x <- rbinom(50, 1, .5)
+y <- rbinom(30, 1, .2)
+
+prop_ci(x)   # should get [1] 0.4196006 0.7003994
+
+prop_ci(x, y, type="two.props")   # should get [1] 0.1978071 0.5888596
+
+# checking the na.rm piece
+x2 <- c(x, NA)
+y2 <- c(y, NA)
+prop_ci(x2, y2, type="two.props")  # should get [1] NA NA or an error message depending on how checked for binary vectors
+prop_ci(x2, y2, type="two.props", na.rm=TRUE)   # should get [1] 0.1978071 0.5888596
+
+# checking the binary piece
+x3 <- c(3,4,5,2,0,1)
+prop_ci(x3)
+prop_ci(x3, y2, type = "two.props")
+
+# check the type piece
+prop_ci(x2, y2, type = "two.groups")
+```
+
 (3) Extra credit: Write a function called `ratio_ci()` for computing either a 95% confidence interval for the odds ratio or a 95% confidence interval for the relative risk between two groups.
 
 ```{r}
 #Put your code for this here
 
+```
+
+To check your code, I will use the following:
+```{r echo = TRUE, eval = FALSE}
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = .7)   # should get [1] 0.08275144 2.21958041
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = .7, type = "odds.ratio")   # should get [1] 0.08275144 2.21958041
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = .7, type = "risk.ratio")   # should get [1] 0.3883215 1.3138702
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = .7, type = "hello")   # should get error message
+
+# checking the proportions check
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = 1.3)   # should get error message
+ratio_ci(n1 = 20, n2 = 10, p1 = 1.5, p2 = .3)   # should get error message
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = 1.3, type = "risk.ratio")   # should get error message
+ratio_ci(n1 = 20, n2 = 10, p1 = 1.5, p2 = .3, type = "risk.ratio")    # should get error message
+ratio_ci(n1 = 20, n2 = 10, p1 = .5, p2 = 1.3, type = "odds.ratio")    # should get error message
+ratio_ci(n1 = 20, n2 = 10, p1 = 1.5, p2 = .3, type = "odds.ratio")    # should get error message
 ```
